@@ -1,4 +1,5 @@
 export type Priority = "high" | "medium" | "low";
+export type TaskFormData = Omit<Task, "id" | "status" | "createdAt" | "updatedAt">;
 
 // タスクオブジェクト全体の型を定義します。
 export interface Task {
