@@ -1,20 +1,11 @@
-import { Task, TaskFormData } from "../../../types/task";
-import { mockTasks } from "../mocks/task";
+import { api } from "../../../shared/utils/api";
+import { TaskFormData } from "../../../types/task";
 
-export const updateTask = (id: string, taskData: Partial<TaskFormData>): Promise<Task | null> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const index = mockTasks.findIndex((task) => task.id === Number.parseInt(id));
-      if (index !== -1) {
-        mockTasks[index] = {
-          ...mockTasks[index],
-          ...taskData,
-          updatedAt: new Date().toISOString(),
-        };
-        resolve(mockTasks[index]);
-      } else {
-        resolve(null);
-      }
-    }, 500);
-  });
+export const updateTask = async (id: string, patch: Partial<TaskFormData> | { status: boolean }) => {
+  const payload: any = { task: { ...patch } };
+  if ("dueDate" in (patch as any)) {
+    payload.task.due_date = (patch as any).dueDate;
+    delete payload.task.dueDate;
+  }
+  await api(`/tasks/${id}`, { method: "PATCH", body: JSON.stringify(payload) });
 };

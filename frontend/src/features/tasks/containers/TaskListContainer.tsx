@@ -12,12 +12,19 @@ export default function TaskListContainer() {
   // タスク一覧を取得する関数
   const fetchTasks = async () => {
     const fetchedTasks = await getTasks();
+    console.log("LIST ids:", fetchedTasks.map(t => t.id)); // ★追加
     setTasks(fetchedTasks);
   };
 
   useEffect(() => {
     fetchTasks();
   }, []);
+
+  useEffect(() => {
+    if (tasks.length) {
+      console.log("RENDER ids:", tasks.map(t => t.id)); // ★追加
+    }
+  }, [tasks]); // ★追加
 
   // セレクトボックスで変更されたステータスを更新する処理
   const handleToggleStatus = async (taskId: Task['id'], newStatus: boolean) => {
@@ -39,7 +46,7 @@ export default function TaskListContainer() {
           {tasks.map((task) => (
             <TaskCard
               key={task.id}
-              task={task}
+              task={{ ...task, title: `${task.title} (${task.id})` }} // ←一時的
               onToggleStatus={handleToggleStatus}
             />
           ))}

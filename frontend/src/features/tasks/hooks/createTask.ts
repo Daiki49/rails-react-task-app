@@ -1,18 +1,15 @@
+import { api } from "../../../shared/utils/api";
 import { Task, TaskFormData } from "../../../types/task";
-import { mockTasks } from "../mocks/task";
-
-export const createTask = (taskData: TaskFormData): Promise<Task> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const newTask: Task = {
-        ...taskData,
-        id: mockTasks.length + 1,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        status: false,
-      };
-      mockTasks.push(newTask);
-      resolve(newTask);
-    }, 500);
-  });
+export const createTask = async (form: TaskFormData): Promise<Task> => {
+  const payload = {
+    task: {
+      ...form,
+      due_date: form.dueDate,
+    },
+  };
+  const t = await api<any>("/tasks", { method: "POST", body: JSON.stringify(payload) });
+  return {
+    id: t.id, title: t.title, description: t.description, priority: t.priority,
+    dueDate: t.due_date, status: t.status, createdAt: t.created_at, updatedAt: t.updated_at,
+  };
 };

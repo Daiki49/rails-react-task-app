@@ -7,12 +7,8 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-
-    origins(
-      "http://localhost:5173",          # Vite (dev)
-      ENV["FRONTEND_ORIGIN"]            # 本番は環境変数
-    ).compact
-
+    allowed = ["http://localhost:5173", ENV["FRONTEND_ORIGIN"]].compact
+    origins(*allowed)  # ← 配列を展開して渡す（nil は含まれない）
     resource "*",
       headers: :any,
       methods: [:get, :post, :put, :patch, :delete, :options, :head]

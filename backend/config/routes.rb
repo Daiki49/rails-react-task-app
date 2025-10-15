@@ -7,4 +7,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  scope :api do
+    resources :tasks, only: %i[index show create update destroy]
+  end
+
 end
