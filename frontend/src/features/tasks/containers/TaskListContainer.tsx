@@ -45,7 +45,7 @@ export default function TaskListContainer() {
           {tasks.map((task) => (
             <TaskCard
               key={task.id}
-              task={{ ...task, title: `${task.title} (${task.id})` }} // ←一時的
+              task={{ ...task, title: `${task.title}` }}
               onToggleStatus={handleToggleStatus}
             />
           ))}
