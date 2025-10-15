@@ -2,16 +2,17 @@ import { TaskFormData } from "../../../types/task";
 import styles from "../styles/taskForm.module.css";
 
 type Props = {
-  formData: TaskFormData; // フォームデータをTaskFormData型で受け取ります
+  formData: TaskFormData;
   onChange: (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
-  ) => void; // 入力が変更されたときに呼ばれる関数の型
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void; // フォームが送信されたときに呼ばれる関数の型
+  ) => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  id?: string;
 };
 
-export default function TaskForm({ formData, onChange, onSubmit }: Props) {
+export default function TaskForm({ formData, onChange, onSubmit, id }: Props) { /* 親からidを受け取る */
   return (
     <form onSubmit={onSubmit} className={styles.form}>
       <div className={styles.formGroup}>
@@ -24,6 +25,7 @@ export default function TaskForm({ formData, onChange, onSubmit }: Props) {
           required
         />
       </div>
+
       <div className={styles.formGroup}>
         <label>説明：</label>
         <textarea
@@ -33,6 +35,7 @@ export default function TaskForm({ formData, onChange, onSubmit }: Props) {
           required
         />
       </div>
+
       <div className={styles.formGroup}>
         <label>優先度：</label>
         <select name="priority" value={formData.priority} onChange={onChange}>
@@ -41,6 +44,7 @@ export default function TaskForm({ formData, onChange, onSubmit }: Props) {
           <option value="low">低</option>
         </select>
       </div>
+
       <div className={styles.formGroup}>
         <label>期限日：</label>
         <input
@@ -51,8 +55,9 @@ export default function TaskForm({ formData, onChange, onSubmit }: Props) {
           required
         />
       </div>
+
       <button type="submit" className={styles.submitButton}>
-        作成する
+        {id ? "更新する" : "作成する"} {/* idの有無で編集/新規を判定 */}
       </button>
     </form>
   );
