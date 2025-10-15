@@ -3,7 +3,6 @@ import { getTasks } from "../hooks/getTasks";
 import { Task } from "../../../types/task";
 import TaskCard from "../components/TaskCard";
 import styles from "../styles/TaskListContainer.module.css";
-import { Link } from "react-router-dom";
 import { updateTask } from "../hooks/updateTask";
 
 export default function TaskListContainer() {
