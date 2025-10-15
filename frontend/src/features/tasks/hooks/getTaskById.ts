@@ -1,13 +1,25 @@
 import { Task } from "../../../types/task";
-import { mockTasks } from "../mocks/task";
+import { api } from "../../../shared/utils/api"; // パスは環境に合わせて
 
-// 戻り値の型は Promise<Task | undefined> と明示します
-export const getTaskById = (id?: string): Promise<Task | undefined> => {
-  if (!id) return Promise.resolve(undefined);
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const task = mockTasks.find((task) => task.id === Number.parseInt(id));
-      resolve(task); // 見つからない場合は undefined が返る
-    }, 500);
-  });
+// 404 の場合は null を返す
+export const getTaskById = async (id?: string): Promise<Task | null> => {
+  if (!id) return null;
+  try {
+    const t = await api<any>(`/tasks/${id}`);
+    // snake_case → camelCase に変換
+    return {
+      id: t.id,
+      title: t.title,
+      description: t.description,
+      priority: t.priority,
+      dueDate: t.due_date,
+      status: t.status,
+      createdAt: t.created_at,
+      updatedAt: t.updated_at,
+    };
+  } catch (e: any) {
+    const msg = String(e?.message || "");
+    if (msg.startsWith("404")) return null;
+    throw e;
+  }
 };

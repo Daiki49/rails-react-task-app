@@ -1,8 +1,17 @@
+import { api } from "../../../shared/utils/api";
 import { Task } from "../../../types/task";
-import { mockTasks } from "../mocks/task";
 
-export const getTasks = (): Promise<Task[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve([...mockTasks]));
-  });
+export const getTasks = async (): Promise<Task[]> => {
+  const data = await api<any[]>("/tasks");
+  // Railsのキー名と揃える変換（snake→camel）
+  return data.map((t) => ({
+    id: t.id,
+    title: t.title,
+    description: t.description,
+    priority: t.priority,
+    dueDate: t.due_date,
+    status: t.status,
+    createdAt: t.created_at,
+    updatedAt: t.updated_at,
+  }));
 };
