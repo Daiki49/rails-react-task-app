@@ -1,6 +1,14 @@
 FROM --platform=linux/amd64 ruby:3.2.2
 RUN apt-get update -qq && apt-get install -y nodejs default-mysql-client
 
+FROM --platform=linux/amd64 ruby:3.2.2
+# Postgres 用の開発ヘッダ & psql クライアント
+RUN apt-get update -qq && apt-get install -y --no-install-recommends \
+      nodejs \
+      libpq-dev \
+      postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 COPY Gemfile /app/Gemfile

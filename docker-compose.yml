@@ -1,13 +1,16 @@
 version: "3"
 services:
   db:
-    image: mysql:8.0
+    image: postgres:16-alpine
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: myapp_development
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - pg_data:/var/lib/postgresql/data
+
   back:
     build:
       context: ./backend
@@ -37,4 +40,4 @@ services:
     command: bash -lc "npm ci || npm install && npm run dev -- --host"
 
 volumes:
-  mysql_data:
+  pg_data:
