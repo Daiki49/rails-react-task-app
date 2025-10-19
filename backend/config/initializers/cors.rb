@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    allowed = ["http://localhost:5173", "http://rails-react-task-app.vercel.app"].compact
+    allowed = ["http://localhost:5173", "https://rails-react-task-app.vercel.app"].compact
     origins(*allowed)  # ← 配列を展開して渡す（nil は含まれない）
     resource "*",
       headers: :any,
