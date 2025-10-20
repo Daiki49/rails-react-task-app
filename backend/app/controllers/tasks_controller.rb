@@ -1,8 +1,5 @@
 class TasksController < ApplicationController
   before_action :set_task, only: %i[show update destroy]
-  skip_before_action :verify_authenticity_token, if: -> {
-    request.format.json? || request.content_type == "application/json"
-  }
 
   def index
     tasks = Task.order(created_at: :desc)
