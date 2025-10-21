@@ -5,7 +5,7 @@ import { api } from "../../../shared/utils/api"; // パスは環境に合わせ�
 export const getTaskById = async (id?: string): Promise<Task | null> => {
   if (!id) return null;
   try {
-    const t = await api<any>(`/tasks/${id}`);
+    const t = await api<any>(`api/tasks/${id}`);
     // snake_case → camelCase に変換
     return {
       id: t.id,
