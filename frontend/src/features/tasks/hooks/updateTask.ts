@@ -7,5 +7,5 @@ export const updateTask = async (id: string, patch: Partial<TaskFormData> | { st
     payload.task.due_date = (patch as any).dueDate;
     delete payload.task.dueDate;
   }
-  await api(`api/tasks/${id}`, { method: "PATCH", body: JSON.stringify(payload) });
+  await api(`/api/tasks/${id}`, { method: "PATCH", body: JSON.stringify(payload) });
 };
