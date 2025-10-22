@@ -1,6 +1,8 @@
 const BASE = import.meta.env.VITE_API_BASE_URL;
 
 export async function api<T>(path: string, init?: RequestInit): Promise<T> {
+  // デバッグ用のログを追加
+  console.log("API Request URL:", `${BASE}${path}`);
   const res = await fetch(`${BASE}${path}`, {
     headers: {
       "Content-Type": "application/json",
