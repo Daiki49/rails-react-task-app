@@ -25,4 +25,5 @@ ENTRYPOINT ["entrypoint.sh"]
 
 EXPOSE 3002
 
-CMD ["rails", "server", "-b", "0.0.0.0"]
+# CMDを変更してマイグレーションを実行
+CMD ["bash", "-c", "bundle exec rails db:migrate && rails server -b 0.0.0.0"]
